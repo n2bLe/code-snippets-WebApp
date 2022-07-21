@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Code Snippets </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="page-content container note-has-grid" id="main">
+    <ul class="nav nav-pills p-3 bg-white mb-3 rounded-pill align-items-center">
+        <li class="nav-item">
+            <a href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2" id="all-category">
+                <i class="icon-layers mr-1"></i><span class="d-none d-md-block" (click)="getAllSnippets()">All Snippets</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a id="files" href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2" id="note-business" (click)="filterByCategory('Files')"> <i class="icon-briefcase mr-1"></i><span class="d-none d-md-block">Files</span></a>
+        </li>
+        <li class="nav-item">
+            <a id="db" href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2" id="note-social" (click)="filterByCategory('Databases')"> <i class="icon-share-alt mr-1"></i><span class="d-none d-md-block">Databases</span></a>
+        </li>
+        <li class="nav-item">
+            <a id="sockets" href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2" id="note-important" (click)="filterByCategory('Sockets')"> <i class="icon-tag mr-1"></i><span class="d-none d-md-block">Sockets</span></a>
+        </li>
+        <li class="nav-item">
+            <a  id="algo" href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2" id="note-important" (click)="filterByCategory('Algorithms')"> <i class="icon-tag mr-1"></i><span class="d-none d-md-block">Algorithms</span></a>
+        </li>
+        <li class="nav-item">
+            <a  id="ds" href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2" id="note-important" (click)="filterByCategory('Data Structures')"> <i class="icon-tag mr-1"></i><span class="d-none d-md-block">Data Structures</span></a>
+        </li>
+        <li class="nav-item ml-auto">
+            <button href="javascript:void(0)" class="nav-link btn-primary rounded-pill d-flex align-items-center px-3" id="add-snippet" (click)="open()">Add Snippets</button>
+        </li>   
+    </ul>
+
+
+    <div class="tab-content bg-transparent" >
+        <div id="note-full-container" class="note-has-grid row">
+            <!-- Card body -->
+
+            <div *ngFor="let snippet of snippets" class="col-md-4 single-note-item  note-social" >
+                <div class="card card-body">
+                    <span class="side-stick"></span>
+                    <h5 class="note-title text-truncate w-75 mb-0" >{{snippet?.category}}<i class="point fa fa-circle ml-1 font-10"></i></h5>
+                    <p class="note-date font-12 text-muted">{{snippet?.language}}</p>
+                    <p class="note-date font-12 text-muted" class="text-info">{{snippet?.name}}</p>
+                    <div class="note-content">
+                        <p class="note-inner-content text-muted" >{{snippet?.description}}</p>
+                    </div>
+                        <div class="ml-auto">
+                            <span class="mr-1"><i class="fa fa-clipboard" id="copy" (click)="copycode(snippet)" ></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+</div>
+
+
+<style type="text/css">
+body{
+    background: #edf1f5;
+    margin-top:20px;
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid transparent;
+    border-radius: 0;
+}
+.card {
+    margin-bottom: 30px;
+}
+.card-body {
+    flex: 1 1 auto;
+    padding: 1.57rem;
+}
+
+ .note-has-grid .nav-link {
+     padding: .5rem
+ }
+
+ .note-has-grid .single-note-item .card {
+     border-radius: 10px
+ }
+
+ .note-has-grid .single-note-item .favourite-note {
+     cursor: pointer
+ }
+
+ .note-has-grid .single-note-item .side-stick {
+     position: absolute;
+     width: 3px;
+     height: 35px;
+     left: 0;
+     background-color: rgba(82, 95, 127, .5)
+ }
+
+ .note-has-grid .single-note-item .category-dropdown.dropdown-toggle:after {
+     display: none
+ }
+
+ .note-has-grid .single-note-item .category [class*=category-] {
+     height: 15px;
+     width: 15px;
+     display: none
+ }
+
+ .note-has-grid .single-note-item .category [class*=category-]::after {
+     content: "\f0d7";
+     font: normal normal normal 14px/1 FontAwesome;
+     font-size: 12px;
+     color: #fff;
+     position: absolute
+ }
+
+ .note-has-grid .single-note-item .category .category-business {
+     background-color: rgba(44, 208, 126, .5);
+     border: 2px solid #2cd07e
+ }
+
+ .note-has-grid .single-note-item .category .category-social {
+     background-color: rgba(44, 171, 227, .5);
+     border: 2px solid #2cabe3
+ }
+
+ .note-has-grid .single-note-item .category .category-important {
+     background-color: rgba(255, 80, 80, .5);
+     border: 2px solid #ff5050
+ }
+
+ .note-has-grid .single-note-item.all-category .point {
+     color: rgba(82, 95, 127, .5)
+ }
+
+ .note-has-grid .single-note-item.note-business .point {
+     color: rgba(44, 208, 126, .5)
+ }
+
+ .note-has-grid .single-note-item.note-business .side-stick {
+     background-color: rgba(44, 208, 126, .5)
+ }
+
+ .note-has-grid .single-note-item.note-business .category .category-business {
+     display: inline-block
+ }
+
+ .note-has-grid .single-note-item.note-favourite .favourite-note {
+     color: #ffc107
+ }
+
+ .note-has-grid .single-note-item.note-social .point {
+     color: rgba(44, 171, 227, .5)
+ }
+
+ .note-has-grid .single-note-item.note-social .side-stick {
+     background-color: rgba(44, 171, 227, .5)
+ }
+
+ .note-has-grid .single-note-item.note-social .category .category-social {
+     display: inline-block
+ }
+
+ .note-has-grid .single-note-item.note-important .point {
+     color: rgba(255, 80, 80, .5)
+ }
+
+ .note-has-grid .single-note-item.note-important .side-stick {
+     background-color: rgba(255, 80, 80, .5)
+ }
+
+ .note-has-grid .single-note-item.note-important .category .category-important {
+     display: inline-block
+ }
+
+ .note-has-grid .single-note-item.all-category .more-options,
+ .note-has-grid .single-note-item.all-category.note-favourite .more-options {
+     display: block
+ }
+
+ .note-has-grid .single-note-item.all-category.note-business .more-options,
+ .note-has-grid .single-note-item.all-category.note-favourite.note-business .more-options,
+ .note-has-grid .single-note-item.all-category.note-favourite.note-important .more-options,
+ .note-has-grid .single-note-item.all-category.note-favourite.note-social .more-options,
+ .note-has-grid .single-note-item.all-category.note-important .more-options,
+ .note-has-grid .single-note-item.all-category.note-social .more-options {
+     display: none
+ }
+
+ @media (max-width:767.98px) {
+     .note-has-grid .single-note-item {
+         max-width: 100%
+     }
+ }
+
+ @media (max-width:991.98px) {
+     .note-has-grid .single-note-item {
+         max-width: 216px
+     }
+ }
+ #copy:after {
+  content: "";
+  background:#5d5e7a;
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px!important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s
+}
+
+#copy:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s
+}
+
+a:focus{
+    background-color: #2cabe3;
+}
+</style>
+
+</body>
+</html>
