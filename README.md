@@ -6,7 +6,7 @@ The purpose of this app is finding useful and re-usable code snippets to save ti
 First when you open the page you are going to find all the Snippets available ,
 You can navigate between categories to see the Snippets related to that category 
 
-![all](https://user-images.githubusercontent.com/44553489/180218236-4cfe5691-6464-4229-ad8e-25ad706da898.png)
+![all](https://user-images.githubusercontent.com/44553489/180242052-4023e328-42f6-40b6-b309-52687b02b7d9.png)
 
 
 You can add a new Snippet by clicking on Add Snippets Button
